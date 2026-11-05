@@ -1,15 +1,1008 @@
 <!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#0b1326"><title>Formuler Home Hub — Prototype</title>
-<style>
-:root{font-family:Inter,system-ui,-apple-system,Segoe UI,sans-serif;color:#eef4ff;background:#0b1326}*{box-sizing:border-box}body{margin:0;min-height:100vh;background:radial-gradient(ellipse at 75% 0%,#233969 0%,transparent 42%),#0b1326}button,a{font:inherit}button{cursor:pointer;color:inherit}button:focus-visible,a:focus-visible,input:focus-visible{outline:4px solid #fbbf24;outline-offset:4px}a{color:inherit;text-decoration:none}.wrap{max-width:1460px;margin:auto;padding:clamp(20px,4vw,60px)}header{display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap}.logo{letter-spacing:.16em;text-transform:uppercase;font-size:.78rem;color:#a9c7fa;font-weight:800}.right{display:flex;align-items:center;gap:12px;flex-wrap:wrap}.clock{font-variant-numeric:tabular-nums;font-size:clamp(1.2rem,2.3vw,2rem);font-weight:800}.profile-btn,.outline{border:1px solid #6077a0;background:#1b2a46;border-radius:18px;padding:12px 18px}.hero{margin:clamp(35px,7vh,85px) 0 30px}.eyebrow{color:#99b5df;font-size:.9rem;text-transform:uppercase;letter-spacing:.13em}.hero h1{font-size:clamp(2.4rem,5vw,5rem);margin:12px 0;letter-spacing:-.04em}.hero p{max-width:730px;color:#bbcee7;font-size:clamp(1rem,1.5vw,1.2rem)}.tabs{display:flex;gap:12px;flex-wrap:wrap;margin:32px 0}.tab{padding:13px 23px;border-radius:16px;border:1px solid #536b95;background:transparent}.tab[aria-selected="true"]{background:#d8e9ff;color:#102043;font-weight:800}.cards{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px}.tile{min-height:170px;padding:24px;border:1px solid #324a70;background:linear-gradient(145deg,#253b5e,#182b49);border-radius:23px;display:flex;flex-direction:column;gap:12px;justify-content:center;transition:transform .1s,background .1s}.tile:hover,.tile:focus-visible{background:#324e79;transform:translateY(-2px)}.tile .glyph{font-size:2.15rem}.tile strong{font-size:1.3rem}.tile span:last-child{color:#c1d0e7;font-size:.93rem;line-height:1.35}.note{margin-top:36px;border-top:1px solid #2c4165;padding-top:18px;color:#9cb1d0;font-size:.89rem}.dialog-back{position:fixed;inset:0;background:#020812d9;display:grid;place-items:center;padding:15px;z-index:5}.dialog{background:#1c2e4e;border:1px solid #5572a4;padding:30px;border-radius:26px;width:min(680px,100%);box-shadow:0 24px 90px #0009}.dialog h2{font-size:2rem;margin:0 0 12px}.dialog p{color:#c0d0e8}.profiles{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:25px 0}.profile{border:2px solid #425e88;background:#24395d;border-radius:18px;padding:24px 12px;text-align:center;min-height:125px}.profile .avatar{display:block;font-size:2.3rem;margin-bottom:9px}.profile.active{border-color:#9cc6ff}.close{float:right}.hidden{display:none!important}.kids{background:radial-gradient(ellipse at top right,#4f3c76,transparent 50%),#141b37}.kids .tile{background:linear-gradient(145deg,#3c426f,#292f54)}.kids .tab[aria-selected="true"]{background:#f9d6f1;color:#312043}.message{padding:14px 16px;background:#263b5c;border-radius:13px;color:#d4e6ff;margin-top:20px}.settings{margin:25px 0;display:flex;flex-wrap:wrap;gap:12px;align-items:center}input{background:#111e34;border:1px solid #7e97c2;color:white;border-radius:10px;padding:13px;min-width:260px;max-width:100%}.tag{font-size:.75rem;background:#394668;padding:4px 8px;border-radius:8px}.small{font-size:.86rem;color:#b9cce5}@media(max-width:920px){.cards{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:540px){.cards{grid-template-columns:1fr}.profiles{grid-template-columns:1fr}.hero{margin-top:32px}.tile{min-height:120px}.wrap{padding:22px}.dialog{padding:22px}}
-</style></head><body><main class="wrap"><header><div class="logo">◆ Home Hub <span class="tag">Prototype 1</span></div><div class="right"><div class="clock" id="clock">--:--</div><button class="profile-btn" id="switch" aria-label="Switch profile">👤 Choose profile</button></div></header><section class="hero"><div class="eyebrow" id="eyebrow">Your personal space</div><h1 id="greeting">Welcome home.</h1><p id="subtitle">Choose a profile to load your personalized experience.</p></section><nav class="tabs" aria-label="Dashboard sections" id="tabs"></nav><section class="cards" id="cards" aria-live="polite"></section><section id="settings" class="settings hidden"><label for="huburl">Optional homepage URL (for example, your own GitHub Pages site):</label><input type="url" id="huburl" placeholder="https://example.com"><button class="outline" id="saveurl">Save link</button></section><div id="message" class="message hidden" role="status"></div><footer class="note">Demo only. Switching profiles changes what is displayed, but does NOT secure Android apps or provide parental controls. No personal information is sent to a server. Data is stored locally in this browser.</footer></main>
-<div class="dialog-back" id="modal"><div class="dialog" role="dialog" aria-modal="true" aria-labelledby="modalheading"><button id="close" class="outline close hidden">Close</button><h2 id="modalheading">Who's watching?</h2><p>Select a profile. Adult profiles share general sections. The girls' profile displays age-appropriate shortcuts.</p><div class="profiles"><button class="profile" data-profile="jeff"><span class="avatar">🧑🏽‍💻</span>Jeff</button><button class="profile" data-profile="martine"><span class="avatar">👩🏽</span>Martine</button><button class="profile" data-profile="girls"><span class="avatar">🌈</span>Girls</button></div><p class="small">Privacy note: this first version has no login or PIN protection. We'll connect real account security and device-level app restrictions in a later phase.</p></div></div>
-<script>
-const $=id=>document.getElementById(id);const profiles={jeff:{name:'Jeff',greeting:'Welcome back, Jeff.',subtitle:'Your TV, gaming library, tools, and live information in one place.',tabs:['Home','Entertainment','Gaming','Tech','Settings']},martine:{name:'Martine',greeting:'Welcome back, Martine.',subtitle:'Your entertainment, calendar, photos, and everyday shortcuts.',tabs:['Home','Entertainment','Family','Settings']},girls:{name:'Girls',greeting:'Ready for fun?',subtitle:'Choose something fun to watch, play, or learn together.',tabs:['Home','Watch','Play','Learn']}};
-const card=(icon,title,desc,action)=>({icon,title,desc,action});const common={tv:card('📺','Live TV','Open your TV app','native'),movies:card('🎬','Movies','Your personal media library','native'),music:card('🎵','Music','Listen to your favorites','native'),steam:card('🎮','Steam Link','Stream compatible computer games','native'),retro:card('🕹️','Retro Games','Classic games library','native'),photos:card('🖼️','Photos','Family memories and slideshows','planned'),weather:card('🌤️','Weather','Local forecast','planned'),calendar:card('🗓️','Calendar','Upcoming events and reminders','planned'),news:card('📰','Local News','Personalized news feed','planned'),server:card('🖥️','Server Status','Your home and VPS services','planned'),automation:card('⚡','Automations','Workflow monitoring','planned'),smart:card('🏡','Smart Home','Connected device controls','planned'),browser:card('🌍','My Website','Open your configured link','url'),learning:card('🧩','Learning','Educational games and activities','planned'),stories:card('📚','Stories','Reading and storytelling','planned'),drawing:card('🎨','Creative','Drawing and creativity','planned'),games:card('🧸','Kids Games','Approved games and activities','native')};
-const grids={jeff:{Home:['tv','steam','retro','weather','calendar','news','server','browser'],Entertainment:['tv','movies','music','photos'],Gaming:['steam','retro','games'],Tech:['server','automation','smart','browser'],Settings:['browser']},martine:{Home:['tv','movies','photos','calendar','weather','music'],Entertainment:['tv','movies','music'],Family:['calendar','photos','weather'],Settings:['browser']},girls:{Home:['stories','learning','games','drawing'],Watch:['stories','photos'],Play:['games','drawing'],Learn:['learning','stories']}};
-let profile=localStorage.getItem('homehub-profile');if(!profiles[profile])profile=null;let tab='Home';function setTime(){const d=new Date();$('clock').textContent=d.toLocaleTimeString([],{hour:'numeric',minute:'2-digit'});}setTime();setInterval(setTime,20000);
-function render(){if(!profile)return;const p=profiles[profile];document.body.classList.toggle('kids',profile==='girls');$('switch').textContent='👤 '+p.name+' ▾';$('greeting').textContent=p.greeting;$('subtitle').textContent=p.subtitle;$('eyebrow').textContent=profile==='girls'?'Kids Zone':'Your personal space';if(!p.tabs.includes(tab))tab='Home';$('tabs').replaceChildren();p.tabs.forEach(t=>{const b=document.createElement('button');b.textContent=t;b.className='tab';b.setAttribute('aria-selected',String(t===tab));b.onclick=()=>{tab=t;render()};$('tabs').append(b)});$('cards').replaceChildren();(grids[profile][tab]||[]).forEach(id=>{const c=common[id],b=document.createElement('button');b.className='tile';b.innerHTML=`<span class="glyph" aria-hidden="true">${c.icon}</span><strong>${c.title}</strong><span>${c.desc}</span>`;b.onclick=()=>act(c);$('cards').append(b)});$('settings').classList.toggle('hidden',tab!=='Settings');$('huburl').value=localStorage.getItem('homehub-url')||'';$('message').classList.add('hidden');}
-function act(c){if(c.action==='url'){const url=localStorage.getItem('homehub-url');if(url){window.open(url,'_blank','noopener');return}show('Set your website link in the Settings tab first.');return}if(c.action==='native')show(`${c.title}: Native Android app launching will be connected in our Android companion app phase. This browser prototype intentionally does not claim to open installed TV apps.`);else show(`${c.title}: Placeholder ready for integration with your preferred data source.`)}function show(msg){$('message').textContent=msg;$('message').classList.remove('hidden')}
-function select(which){profile=which;tab='Home';localStorage.setItem('homehub-profile',which);$('modal').classList.add('hidden');$('close').classList.remove('hidden');render()};document.querySelectorAll('[data-profile]').forEach(b=>b.addEventListener('click',()=>select(b.dataset.profile)));$('switch').onclick=()=>{$('modal').classList.remove('hidden')};$('close').onclick=()=>{$('modal').classList.add('hidden')};$('saveurl').onclick=()=>{const v=$('huburl').value.trim();if(v&&!/^https:\/\//i.test(v)){show('Enter an HTTPS website URL.');return}localStorage.setItem('homehub-url',v);show('Link saved in this browser.')};if(profile){$('modal').classList.add('hidden');$('close').classList.remove('hidden');render()}
-</script></body></html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#090b12">
+    <title>Home Hub — Cinematic Edition</title>
+    <style>
+    :root {
+        color-scheme: dark;
+        --bg: #090b12;
+        --panel: #151b27;
+        --mute: #aeb6c8;
+        --white: #f7f7fb;
+        --accent: #e9b76b;
+        font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif
+    }
+
+    * {
+        box-sizing:border-box
+    }
+
+    html {
+        scroll-behavior:smooth
+    }
+
+    body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--white);
+        min-height:100vh
+    }
+
+    button, a, input {
+        font:inherit
+    }
+
+    button {
+        cursor: pointer;
+        color:inherit
+    }
+
+    a {
+        color: inherit;
+        text-decoration:none
+    }
+
+    button:focus-visible, a:focus-visible, input:focus-visible, .tile:focus-visible {
+        outline: 3px solid #f6d49a;
+        outline-offset: 4px;
+        transform:scale(1.035)
+    }
+
+    .hidden {
+        display:none !important
+    }
+
+    .shell {
+        min-height: 100vh;
+        position: relative;
+        overflow:hidden
+    }
+
+    .shell:before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 590px;
+        pointer-events: none;
+        background:linear-gradient(90deg, #080b11 6%, rgba(8, 11, 17, .84) 35%, rgba(8, 11, 17, .18) 88%), linear-gradient(0deg, #090b12 0%, transparent 65%), radial-gradient(ellipse at 75% 30%, #385075 0%, #17263c 29%, transparent 64%)
+    }
+
+    .app {
+        position: relative;
+        z-index:1
+    }
+
+    .top {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 28px clamp(24px, 5vw, 88px);
+        gap:18px
+    }
+
+    .brand {
+        font-weight: 900;
+        letter-spacing: .16em;
+        font-size: 20px;
+        white-space:nowrap
+    }
+
+    .brand span {
+        color:var(--accent)
+    }
+
+    .top-right {
+        display: flex;
+        align-items: center;
+        gap:20px
+    }
+
+    .time {
+        font-size: 14px;
+        color:#ced1d8
+    }
+
+    .profile-switch {
+        border: 1px solid #5e6776;
+        background: #161d2ccc;
+        padding: 9px 14px;
+        border-radius: 999px;
+        display: flex;
+        gap: 9px;
+        align-items:center
+    }
+
+    .mini-avatar {
+        width: 25px;
+        height: 25px;
+        border-radius: 50%;
+        display: grid;
+        place-items: center;
+        background: #58677d;
+        overflow: hidden;
+        font-weight:800
+    }
+
+    .mini-avatar img, .avatar img {
+        width: 100%;
+        height: 100%;
+        object-fit:cover
+    }
+
+    .nav {
+        display: flex;
+        gap: 23px;
+        padding: 0 clamp(24px, 5vw, 88px);
+        border-bottom: 1px solid rgba(255, 255, 255, .10);
+        align-items:center
+    }
+
+    .nav button {
+        border: 0;
+        background: transparent;
+        padding: 15px 1px;
+        color: #afb7c7;
+        font-weight:650
+    }
+
+    .nav button.active {
+        color: white;
+        border-bottom:2px solid var(--accent)
+    }
+
+    .hero {
+        padding: 56px clamp(24px, 5vw, 88px) 64px;
+        min-height: 420px;
+        display: flex;
+        align-items:center
+    }
+
+    .hero-content {
+        max-width:680px
+    }
+
+    .eyebrow {
+        font-size: 12px;
+        letter-spacing: .22em;
+        color: #edc88b;
+        font-weight: 800;
+        text-transform:uppercase
+    }
+
+    .hero h1 {
+        font-size: clamp(42px, 5.1vw, 88px);
+        letter-spacing: -.055em;
+        line-height: .99;
+        margin:17px 0 18px
+    }
+
+    .hero p {
+        font-size: clamp(15px, 1.4vw, 20px);
+        line-height: 1.5;
+        color: #d1d9e4;
+        max-width:590px
+    }
+
+    .actions {
+        display: flex;
+        gap: 12px;
+        margin-top: 25px;
+        flex-wrap:wrap
+    }
+
+    .primary, .secondary {
+        border: 0;
+        padding: 14px 22px;
+        border-radius: 8px;
+        font-weight: 800;
+        display: inline-flex;
+        gap: 10px;
+        align-items:center
+    }
+
+    .primary {
+        background: #f4f5f8;
+        color:#131923
+    }
+
+    .secondary {
+        background: #ffffff24;
+        border:1px solid #ffffff28
+    }
+
+    .section {
+        padding:7px clamp(24px, 5vw, 88px) 30px
+    }
+
+    .section-heading {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        gap:16px
+    }
+
+    .section h2 {
+        font-size: 21px;
+        letter-spacing:-.02em
+    }
+
+    .hint {
+        color: #aeb6c8;
+        font-size:12px
+    }
+
+    .rail {
+        display: flex;
+        gap: 15px;
+        overflow-x: auto;
+        padding: 10px 5px 19px;
+        scroll-snap-type: x proximity;
+        scrollbar-width: thin;
+        scrollbar-color:#576174 transparent
+    }
+
+    .tile {
+        min-width: clamp(175px, 22vw, 286px);
+        width: clamp(175px, 22vw, 286px);
+        height: clamp(132px, 15vw, 184px);
+        flex: none;
+        border: 1px solid #ffffff18;
+        background: #1a2434;
+        border-radius: 12px;
+        scroll-snap-align: start;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        text-align: left;
+        padding: 18px;
+        position: relative;
+        overflow: hidden;
+        isolation: isolate;
+        transition: transform .16s, box-shadow .16s;
+        border-color:#ffffff25
+    }
+
+    .tile:hover {
+        transform: scale(1.035);
+        box-shadow:0 20px 36px #0007
+    }
+
+    .tile:before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        z-index: -1;
+        background:linear-gradient(0deg, #080d18ee 0%, #11182718 85%), var(--art)
+    }
+
+    .tile-icon {
+        font-size: 30px;
+        margin-bottom:auto
+    }
+
+    .tile b {
+        font-size:18px
+    }
+
+    .tile small {
+        font-size: 12px;
+        color: #d1d8e2;
+        margin-top:5px
+    }
+
+    .label-pill {
+        font-size: 10px;
+        color: #f3dbb3;
+        letter-spacing: .08em;
+        text-transform: uppercase;
+        margin-bottom:7px
+    }
+
+    .footer {
+        color: #8d97a9;
+        font-size: 12px;
+        padding:45px clamp(24px, 5vw, 88px)
+    }
+
+    .overlay {
+        position: fixed;
+        z-index: 50;
+        inset: 0;
+        background: #03050be9;
+        display: grid;
+        place-items: center;
+        padding: 20px;
+        backdrop-filter:blur(12px)
+    }
+
+    .modal {
+        width: min(860px, 100%);
+        background: linear-gradient(140deg, #222b3d, #101620);
+        border: 1px solid #65708755;
+        padding: clamp(22px, 4vw, 45px);
+        border-radius: 19px;
+        box-shadow:0 36px 90px #000a
+    }
+
+    .modal h1 {
+        font-size: clamp(28px, 4vw, 50px);
+        text-align: center;
+        letter-spacing: -.04em;
+        margin:5px 0 7px
+    }
+
+    .sub {
+        text-align: center;
+        color: #b5bdca;
+        margin:0 0 30px
+    }
+
+    .people {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap:clamp(10px, 2vw, 23px)
+    }
+
+    .person {
+        background: transparent;
+        border: 2px solid transparent;
+        border-radius: 14px;
+        padding: 12px;
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        gap:12px
+    }
+
+    .person:hover, .person:focus-visible {
+        background:#ffffff11
+    }
+
+    .avatar {
+        width: min(100%, 160px);
+        aspect-ratio: 1;
+        background: linear-gradient(140deg, var(--pc), #202e46);
+        border: 2px solid #ffffff55;
+        border-radius: 15px;
+        display: grid;
+        place-items: center;
+        font-size: clamp(35px, 6vw, 68px);
+        font-weight: 850;
+        overflow:hidden
+    }
+
+    .person-name {
+        font-size: 17px;
+        font-weight:750
+    }
+
+    .photo-edit {
+        display: block;
+        text-align: center;
+        color: #acbad0;
+        font-size: 13px;
+        margin-top:22px
+    }
+
+    .text-btn {
+        background: transparent;
+        border: 0;
+        text-decoration: underline;
+        color: #e6c893;
+        padding:5px
+    }
+
+    .notice {
+        margin-top: 25px;
+        border-top: 1px solid #ffffff28;
+        padding-top: 17px;
+        color: #b4bece;
+        font-size: 12px;
+        line-height:1.6
+    }
+
+    .dialog-title {
+        margin: 0 0 12px;
+        font-size:27px
+    }
+
+    .dialog-copy {
+        line-height: 1.6;
+        color:#b8c2d3
+    }
+
+    .dialog-actions {
+        display: flex;
+        gap: 12px;
+        margin-top: 26px;
+        flex-wrap:wrap
+    }
+
+    .close {
+        float: right;
+        border: 0;
+        background: #ffffff18;
+        border-radius: 50%;
+        height: 34px;
+        width:34px
+    }
+
+    .edit-grid {
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+        justify-content:center
+    }
+
+    .edit-grid button {
+        border: 1px solid #607088;
+        background: #243246;
+        padding: 14px;
+        border-radius:10px
+    }
+
+    .focus-help {
+        position: fixed;
+        bottom: 15px;
+        right: 15px;
+        border: 1px solid #ffffff20;
+        background: #0e1424de;
+        border-radius: 7px;
+        padding: 8px 12px;
+        color: #b0bbcf;
+        font-size: 11px;
+        z-index:5
+    }
+
+    input[type=file] {
+        display:none
+    }
+
+    .kids .shell:before {
+        background:linear-gradient(90deg, #100d22 0%, #171534b9 50%, #25214d33 100%), linear-gradient(0deg, #090b12 0%, transparent 65%), radial-gradient(ellipse at 80% 30%, #744c8a, #264679 48%, transparent 72%)
+    }
+
+    .kids {
+        --accent:#ffcf85
+    }
+
+    @media (max-width: 620px) {
+        .top {
+            padding:20px
+        }
+
+        .nav, .section, .hero {
+            padding-left: 20px;
+            padding-right:20px
+        }
+
+        .top-right .time {
+            display:none
+        }
+
+        .nav {
+            gap: 14px;
+            overflow:auto
+        }
+
+        .nav button {
+            white-space:nowrap
+        }
+
+        .hero {
+            min-height: 350px;
+            padding-top:30px
+        }
+
+        .tile {
+            min-width: 205px;
+            width: 205px;
+            height:150px
+        }
+
+        .people {
+            gap:3px
+        }
+
+        .avatar {
+            border-radius:10px
+        }
+
+        .person {
+            padding:5px
+        }
+
+        .person-name {
+            font-size:13px
+        }
+
+        .focus-help {
+            display:none
+        }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        html {
+            scroll-behavior:auto
+        }
+
+        .tile {
+            transition: none
+        }
+    }
+    </style>
+</head>
+<body>
+    <div id="root" class="shell">
+        <div class="app">
+            <header class="top">
+                <div class="brand">
+                    HOME
+                    <span>HUB</span>
+                </div>
+                <div class="top-right">
+                    <span id="clock" class="time"></span>
+                    <button id="profileBtn" class="profile-switch">
+                        <span class="mini-avatar" id="miniAvatar">?</span>
+                        <span id="profileName">Choose profile</span>
+                         ▾
+                    </button>
+                </div>
+            </header>
+            <nav class="nav" id="nav" aria-label="Main menu"></nav>
+            <main>
+                <section class="hero">
+                    <div class="hero-content">
+                        <div class="eyebrow" id="heroTag">YOUR ENTERTAINMENT, YOUR WAY</div>
+                        <h1 id="heroTitle">
+                            Your world.
+                            <br>
+                            Your screen.
+                        </h1>
+                        <p id="heroText">One place for entertainment, games, family moments, and the things that matter to you.</p>
+                        <div class="actions">
+                            <button class="primary" id="heroAction">▶ Explore now</button>
+                            <button class="secondary" id="changeProfile">◉ Switch profile</button>
+                        </div>
+                    </div>
+                </section>
+                <div id="rails"></div>
+            </main>
+            <footer class="footer">HOME HUB 2.0 • Cinematic preview • Profile settings and photos are local to this browser. Native Android app launching comes later.</footer>
+        </div>
+    </div>
+    <div class="focus-help">BT3 remote / keyboard: ← ↑ → ↓ to move · OK / Enter to select · Esc to go back</div>
+    <div class="overlay" id="profileOverlay">
+        <section class="modal" aria-labelledby="profileHeading">
+            <div class="eyebrow" style="text-align:center">WELCOME HOME</div>
+            <h1 id="profileHeading">Who's watching?</h1>
+            <p class="sub">Choose your space</p>
+            <div class="people" id="people"></div>
+            <div class="photo-edit">
+                <button class="text-btn" id="managePhotos">Change profile photos</button>
+            </div>
+            <div class="notice">Profiles personalize what you see; they are not parental controls. Photos selected here stay in this browser's local storage and are not uploaded to GitHub. Other devices will not automatically show these photos.</div>
+        </section>
+    </div>
+    <div class="overlay hidden" id="dialogOverlay">
+        <section class="modal" role="dialog" aria-modal="true">
+            <button class="close" id="dialogClose" aria-label="Close">✕</button>
+            <h2 class="dialog-title" id="dialogTitle"></h2>
+            <p class="dialog-copy" id="dialogText"></p>
+            <div id="dialogExtra"></div>
+            <div class="dialog-actions">
+                <button class="primary" id="dialogOkay">Got it</button>
+            </div>
+        </section>
+    </div>
+    <input id="photoInput" type="file" accept="image/*">
+    <script>
+    (() => {
+        'use strict';
+        const profiles = {
+            jeff: {
+                name: 'Jeff',
+                initial: 'J',
+                color: '#385a81',
+                kid: false
+            },
+            martine: {
+                name: 'Martine',
+                initial: 'M',
+                color: '#764f78',
+                kid: false
+            },
+            girls: {
+                name: 'Girls',
+                initial: '★',
+                color: '#694b9b',
+                kid: true
+            }
+        };
+        const $ = id => document.getElementById(id);
+        let active = null,
+            tab = 'Home',
+            photoTarget = 'jeff',
+            previousFocus = null;
+        const art = ['linear-gradient(130deg,#38597d,#151e37 75%)', 'linear-gradient(125deg,#754c70,#272044 75%)', 'linear-gradient(135deg,#317e81,#152d41 75%)', 'linear-gradient(135deg,#906b46,#2c2435 75%)', 'linear-gradient(130deg,#5564a5,#1a243f 75%)', 'linear-gradient(130deg,#47624e,#152e34 75%)', 'linear-gradient(135deg,#a45e80,#30223c 75%)'];
+        const items = {
+            tv: {
+                name: 'Live TV',
+                desc: 'MYTVOnline',
+                icon: '▣',
+                kind: 'native',
+                app: 'MYTVOnline',
+                category: 'Entertainment'
+            },
+            youtube: {
+                name: 'YouTube',
+                desc: 'Videos & channels',
+                icon: '▶',
+                kind: 'web',
+                url: 'https://www.youtube.com/tv',
+                category: 'Entertainment'
+            },
+            steam: {
+                name: 'Steam Link',
+                desc: 'Stream PC games',
+                icon: '🎮',
+                kind: 'native',
+                app: 'Steam Link',
+                category: 'Gaming'
+            },
+            retro: {
+                name: 'Retro Gaming',
+                desc: 'RetroArch & classics',
+                icon: '🕹',
+                kind: 'native',
+                app: 'RetroArch',
+                category: 'Gaming'
+            },
+            movies: {
+                name: 'Your Movies',
+                desc: 'Your private media',
+                icon: '▤',
+                kind: 'native',
+                app: 'Kodi or Jellyfin',
+                category: 'Entertainment'
+            },
+            music: {
+                name: 'Music Lounge',
+                desc: 'Music collection',
+                icon: '♫',
+                kind: 'native',
+                app: 'Music player',
+                category: 'Entertainment'
+            },
+            photos: {
+                name: 'Family Photos',
+                desc: 'Your family moments',
+                icon: '▧',
+                kind: 'planned',
+                category: 'Family'
+            },
+            calendar: {
+                name: 'Family Calendar',
+                desc: 'Upcoming events',
+                icon: '▦',
+                kind: 'planned',
+                category: 'Family'
+            },
+            weather: {
+                name: 'Weather',
+                desc: 'Forecast & alerts',
+                icon: '☀',
+                kind: 'web',
+                url: 'https://www.weather.gov/',
+                category: 'Family'
+            },
+            news: {
+                name: 'Local News',
+                desc: 'Boston & beyond',
+                icon: '◉',
+                kind: 'planned',
+                category: 'Home'
+            },
+            home: {
+                name: 'Smart Home',
+                desc: 'Connected devices',
+                icon: '⌂',
+                kind: 'planned',
+                category: 'Home'
+            },
+            automation: {
+                name: 'Automations',
+                desc: 'n8n workflow status',
+                icon: '⚙',
+                kind: 'planned',
+                category: 'Tech'
+            },
+            servers: {
+                name: 'Server Monitor',
+                desc: 'Hetzner & websites',
+                icon: '▥',
+                kind: 'planned',
+                category: 'Tech'
+            },
+            learning: {
+                name: 'Learning Corner',
+                desc: 'Stories & discovery',
+                icon: '✦',
+                kind: 'planned',
+                category: 'Kids'
+            },
+            kidsvideos: {
+                name: 'Kids Videos',
+                desc: 'Family-approved videos',
+                icon: '▶',
+                kind: 'planned',
+                category: 'Kids'
+            },
+            kidgames: {
+                name: 'Fun & Games',
+                desc: 'Games for the girls',
+                icon: '★',
+                kind: 'planned',
+                category: 'Kids'
+            }
+        };
+        const modes = {
+            Home: {
+                adult: [['Featured for you', ['tv', 'steam', 'movies', 'youtube', 'retro']], ['Entertainment', ['youtube', 'tv', 'music', 'movies']], ['Your life', ['photos', 'calendar', 'weather', 'news']], ['Connected home', ['home', 'automation', 'servers']]],
+                kid: [['Made for you', ['kidsvideos', 'learning', 'kidgames']], ['Family time', ['photos', 'weather']]]
+            },
+            Watch: {
+                adult: [['Your streaming apps', ['tv', 'youtube', 'movies', 'music']]],
+                kid: [['Watch together', ['kidsvideos']]]
+            },
+            Games: {
+                adult: [['Ready player one', ['steam', 'retro', 'kidgames']]],
+                kid: [['Play & explore', ['kidgames', 'learning']]]
+            },
+            Family: {
+                adult: [['Family life', ['photos', 'calendar', 'weather']], ['Stay informed', ['news', 'home']]],
+                kid: [['Family', ['photos', 'weather', 'learning']]]
+            },
+            Tools: {
+                adult: [['Your command center', ['servers', 'automation', 'home', 'news']]],
+                kid: [['For you', ['learning']]]
+            }
+        };
+        function getPhoto(id) {
+            try {
+                return localStorage.getItem('homehub-photo-' + id) || ''
+            } catch {
+                return ''
+            }
+        }
+        function setPhoto(id, data) {
+            try {
+                localStorage.setItem('homehub-photo-' + id, data);
+                return true
+            } catch {
+                return false
+            }
+        }
+        function pic(id, cl) {
+            const p = profiles[id],
+                src = getPhoto(id);
+            return `<span class="${cl}" style="--pc:${p.color}">${src ? `<img src="${src}" alt="">` : p.initial}</span>`
+        }
+        function choose(id) {
+            active = id;
+            try {
+                localStorage.setItem('homehub-last-profile', id)
+            } catch {}
+            $('profileOverlay').classList.add('hidden');
+            document.body.classList.toggle('kids', profiles[id].kid);
+            $('profileName').textContent = profiles[id].name;
+            $('miniAvatar').outerHTML = pic(id, 'mini-avatar').replace('class="mini-avatar"', 'id="miniAvatar" class="mini-avatar"');
+            tab = 'Home';
+            render();
+            setTimeout(() => $('heroAction').focus(), 50)
+        }
+        function selectProfiles() {
+            const box = $('people');
+            box.innerHTML = '';
+            Object.entries(profiles).forEach(([id, p]) => {
+                const btn = document.createElement('button');
+                btn.className = 'person';
+                btn.innerHTML = `${pic(id, 'avatar')}<span class="person-name">${p.name}</span>`;
+                btn.setAttribute('aria-label', 'Open ' + p.name + ' profile');
+                btn.onclick = () => choose(id);
+                box.append(btn)
+            });
+            $('profileOverlay').classList.remove('hidden');
+            box.querySelector('button')?.focus()
+        }
+        function render() {
+            if (!active)
+                return;
+            const kid = profiles[active].kid,
+                navNames = kid ? ['Home', 'Watch', 'Games', 'Family'] : ['Home', 'Watch', 'Games', 'Family', 'Tools'];
+            $('nav').innerHTML = '';
+            navNames.forEach(name => {
+                const b = document.createElement('button');
+                b.textContent = name;
+                b.className = tab === name ? 'active' : '';
+                b.onclick = () => {
+                    tab = name;
+                    render()
+                };
+                $('nav').append(b)
+            });
+            const titles = {
+                Home: kid ? ['A little magic.', 'Stories, games, and family fun made just for you.'] : ['Everything you love.', 'A beautiful place for live TV, games, your favorite apps, and everything at home.'],
+                Watch: ['Something good awaits.', 'Find what to watch, all in one place.'],
+                Games: ['Ready to play?', 'Your gateway to gaming on the big screen.'],
+                Family: ['The moments that matter.', 'Your family, your memories, your everyday essentials.'],
+                Tools: ['Your world, connected.', 'See your smart home, servers, and automations at a glance.']
+            };
+            $('heroTag').textContent = kid ? 'THE GIRLS’ SPACE' : 'YOUR PERSONAL HOME HUB';
+            $('heroTitle').textContent = titles[tab][0];
+            $('heroText').textContent = titles[tab][1];
+            $('heroAction').textContent = tab === 'Home' ? '▶ Start exploring' : '▶ Browse ' + tab;
+            const rails = $('rails');
+            rails.innerHTML = '';
+            (modes[tab][kid ? 'kid' : 'adult']).forEach(([title, ids]) => {
+                const section = document.createElement('section');
+                section.className = 'section';
+                section.innerHTML = `<div class="section-heading"><h2>${title}</h2><span class="hint">Scroll to explore →</span></div><div class="rail"></div>`;
+                ids.forEach((id, i) => {
+                    const it = items[id],
+                        b = document.createElement('button');
+                    b.className = 'tile';
+                    b.style.setProperty('--art', art[(i + title.length) % art.length]);
+                    b.innerHTML = `<span class="tile-icon">${it.icon}</span><span class="label-pill">${it.category}</span><b>${it.name}</b><small>${it.desc}</small>`;
+                    b.onclick = () => openTile(id);
+                    section.querySelector('.rail').append(b)
+                });
+                rails.append(section)
+            })
+        }
+        function dialog(title, body, extra='') {
+            previousFocus = document.activeElement;
+            $('dialogTitle').textContent = title;
+            $('dialogText').textContent = body;
+            $('dialogExtra').innerHTML = extra;
+            $('dialogOverlay').classList.remove('hidden');
+            $('dialogOkay').focus()
+        }
+        function closeDialog() {
+            $('dialogOverlay').classList.add('hidden');
+            previousFocus?.focus()
+        }
+        function openTile(id) {
+            const it = items[id];
+            if (it.kind === 'web') {
+                dialog(it.name, 'This opens a website in the current browser. It is not a native Android app shortcut.', `<a class="primary" style="display:inline-flex;margin-top:8px" href="${it.url}" target="_blank" rel="noopener noreferrer">Open website ↗</a>`)
+            } else if (it.kind === 'native') {
+                dialog(it.name, `This tile is ready for our future Android companion app. In this web-only prototype, browsers cannot reliably open the installed ${it.app} app. We'll connect this after we build and install the Android component.`)
+            } else {
+                dialog(it.name, 'This section is designed but its live data and interactive features will be connected in an upcoming project phase.')
+            }
+        }
+        $('profileBtn').onclick = selectProfiles;
+        $('changeProfile').onclick = selectProfiles;
+        $('heroAction').onclick = () => $('rails').querySelector('.tile')?.focus();
+        $('dialogClose').onclick = closeDialog;
+        $('dialogOkay').onclick = closeDialog;
+        $('managePhotos').onclick = () => {
+            dialog('Change profile photos', 'Select a profile to choose a photo from this device. Photos are saved in this browser only, not uploaded to GitHub or synchronized to other devices.');
+            const edit = $('dialogExtra');
+            edit.innerHTML = '';
+            const wrap = document.createElement('div');
+            wrap.className = 'edit-grid';
+            Object.entries(profiles).forEach(([id, p]) => {
+                const b = document.createElement('button');
+                b.textContent = '📷 ' + p.name;
+                b.onclick = () => {
+                    photoTarget = id;
+                    $('photoInput').click()
+                };
+                wrap.append(b)
+            });
+            edit.append(wrap)
+        };
+        $('photoInput').onchange = ev => {
+            const file = ev.target.files?.[0];
+            if (!file)
+                return;
+            if (!file.type.startsWith('image/')) {
+                dialog('Unsupported file', 'Please choose an image file.');
+                return
+            }
+            const img = new Image();
+            const url = URL.createObjectURL(file);
+            img.onload = () => {
+                const canvas = document.createElement('canvas');
+                canvas.width = canvas.height = 360;
+                const ctx = canvas.getContext('2d');
+                const side = Math.min(img.width, img.height),
+                    sx = (img.width - side) / 2,
+                    sy = (img.height - side) / 2;
+                ctx.drawImage(img, sx, sy, side, side, 0, 0, 360, 360);
+                URL.revokeObjectURL(url);
+                const result = canvas.toDataURL('image/jpeg', .78);
+                if (!setPhoto(photoTarget, result)) {
+                    dialog('Storage unavailable', 'This browser cannot save the photo locally. Try a smaller photo or another browser.');
+                    return
+                }
+                closeDialog();
+                selectProfiles();
+                ev.target.value = ''
+            };
+            img.onerror = () => {
+                URL.revokeObjectURL(url);
+                dialog('Cannot open photo', 'Please try another image.')
+            };
+            img.src = url
+        };
+        function focusDirectional(key) {
+            const overlay = !$('dialogOverlay').classList.contains('hidden') ? $('dialogOverlay') : !$('profileOverlay').classList.contains('hidden') ? $('profileOverlay') : document;
+            const els = [...overlay.querySelectorAll('button:not([disabled]),a[href]')].filter(el => el.getClientRects().length);
+            const cur = document.activeElement;
+            if (!els.length)
+                return;
+            if (!els.includes(cur)) {
+                els[0].focus();
+                return
+            }
+            const r = cur.getBoundingClientRect(),
+                cx = r.left + r.width / 2,
+                cy = r.top + r.height / 2;
+            const candidates = els.filter(e => e !== cur).map(e => {
+                const q = e.getBoundingClientRect(),
+                    dx = q.left + q.width / 2 - cx,
+                    dy = q.top + q.height / 2 - cy;
+                const valid = key === 'ArrowRight' ? dx > 5 : key === 'ArrowLeft' ? dx < -5 : key === 'ArrowDown' ? dy > 5 : dy < -5;
+                const primary = key === 'ArrowRight' || key === 'ArrowLeft' ? Math.abs(dx) : Math.abs(dy),
+                    secondary = key === 'ArrowRight' || key === 'ArrowLeft' ? Math.abs(dy) : Math.abs(dx);
+                return {
+                    e,
+                    score: primary + secondary * 2.2,
+                    valid
+                }
+            }).filter(x => x.valid).sort((a, b) => a.score - b.score);
+            if (candidates[0]) {
+                candidates[0].e.focus();
+                candidates[0].e.scrollIntoView({
+                    block: 'nearest',
+                    inline: 'nearest',
+                    behavior: 'smooth'
+                })
+            }
+        }
+        document.addEventListener('keydown', e => {
+            if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
+                e.preventDefault();
+                focusDirectional(e.key)
+            } else if (e.key === 'Escape' || e.key === 'Backspace') {
+                if (!$('dialogOverlay').classList.contains('hidden')) {
+                    e.preventDefault();
+                    closeDialog()
+                } else if ($('profileOverlay').classList.contains('hidden')) {
+                    e.preventDefault();
+                    selectProfiles()
+                }
+            }
+        });
+        function clock() {
+            const d = new Date();
+            $('clock').textContent = d.toLocaleTimeString([], {
+                hour: 'numeric',
+                minute: '2-digit'
+            })
+        }
+        clock();
+        setInterval(clock, 30000);
+        selectProfiles();
+    })();
+    </script>
+</body>
+</html>
